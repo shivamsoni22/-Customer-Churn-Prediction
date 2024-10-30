@@ -4,3 +4,4 @@ matplotlib==3.6.3
 seaborn==0.12.2
 numpy==1.24.3
 jupyter==1.0.0
+pip install kaggle
