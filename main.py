@@ -4,7 +4,7 @@ from src.model_evaluation import evaluate_model
 
 def main():
     # Load the dataset
-    data = load_data('D:\\-Customer-Churn-Prediction\\Data\\customer_churn_data.csv')  # Updated file path
+    data = load_data(r'D:\Customer-Churn-Prediction\Data\customer_churn_data.csv')  # Updated file path
 
     # Train the model
     model, X_test, y_test = train_model(data)  # Get the model and test data

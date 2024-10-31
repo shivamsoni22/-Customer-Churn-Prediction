@@ -1,15 +1,24 @@
 import pandas as pd
 
 def load_data():
-    """Load the dataset from a csv file."""
-    # Directly using the specified file path
-    filepath = r'D:\-Customer-Churn-Prediction\Data\customer_churn_data.csv'  # Use raw string to avoid escape issues
-    return pd.read_csv(filepath)
+    """Load the dataset from a CSV file."""
+    filepath = r'D:\Customer-Churn-Prediction\Data\customer_churn_data.csv'  # Use raw string to avoid escape issues
+    data = pd.read_csv(filepath)
+    print("Loaded data with columns:", data.columns)
+    return data
 
 def clean_data(data):
     """Clean the data by handling missing values and encoding categorical features."""
-    data = data.dropna()  # Example: drop rows with missing values
-    data = pd.get_dummies(data, drop_first=True)  # One-hot encoding for categorical features
+    # Drop non-numeric column 'customerID'
+    if 'customerID' in data.columns:
+        data = data.drop(columns=['customerID'])
+
+    # Handle missing values in 'TotalCharges'
+    data['TotalCharges'] = pd.to_numeric(data['TotalCharges'], errors='coerce')
+    data = data.dropna()  # Drop rows with missing values after conversion
+
+    # Convert categorical columns to numeric using one-hot encoding
+    data = pd.get_dummies(data, drop_first=True)
     return data
 
 if __name__ == "__main__":

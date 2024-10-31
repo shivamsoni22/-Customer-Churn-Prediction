@@ -4,8 +4,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
 def load_data():
-    """Load the dataset from a csv file."""
-    filepath = r'D:\-Customer-Churn-Prediction\Data\customer_churn_data.csv'
+    """Load the dataset from a CSV file."""
+    filepath = r'D:\Customer-Churn-Prediction\Data\customer_churn_data.csv'
     data = pd.read_csv(filepath)
     print("Columns in the dataset:", data.columns)
     print("First 5 rows of the dataset:\n", data.head())
@@ -14,7 +14,8 @@ def load_data():
 def clean_data(data):
     """Clean the data by handling missing values and encoding categorical features."""
     # Drop non-numeric column 'customerID'
-    data = data.drop(columns=['customerID'])
+    if 'customerID' in data.columns:
+        data = data.drop(columns=['customerID'])
     
     # Handle missing values in TotalCharges
     data['TotalCharges'] = pd.to_numeric(data['TotalCharges'], errors='coerce')
@@ -26,6 +27,10 @@ def clean_data(data):
 
 def train_model(data):
     """Train a machine learning model."""
+    # Check if the target column exists
+    if 'Churn_Yes' not in data.columns:
+        raise ValueError("Target column 'Churn_Yes' not found in the dataset.")
+
     X = data.drop('Churn_Yes', axis=1)  # Features
     y = data['Churn_Yes']  # Target variable
     
@@ -37,13 +42,6 @@ def train_model(data):
     model = RandomForestClassifier()
     model.fit(X_train, y_train)
     print("Model training completed.")
-    
-    # Make predictions
-    y_pred = model.predict(X_test)
-    
-    # Calculate accuracy
-    accuracy = accuracy_score(y_test, y_pred)
-    print(f'Model Accuracy: {accuracy * 100:.2f}%')  # Display accuracy
     
     return model, X_test, y_test
 
