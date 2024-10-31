@@ -1,8 +1,10 @@
 import pandas as pd
 
-def load_data(filepath):
+def load_data():
     """Load the dataset from a csv file."""
-    return pd.read_csv('D:\-Customer-Churn-Prediction\Data\customer_churn_data.csv')
+    # Directly using the specified file path
+    filepath = r'D:\-Customer-Churn-Prediction\Data\customer_churn_data.csv'  # Use raw string to avoid escape issues
+    return pd.read_csv(filepath)
 
 def clean_data(data):
     """Clean the data by handling missing values and encoding categorical features."""
@@ -12,6 +14,6 @@ def clean_data(data):
 
 if __name__ == "__main__":
     # Example usage
-    data = load_data('../data/customer_churn_data.csv')
-    clean_data = clean_data(data)
-    print(clean_data.head())
+    data = load_data()
+    cleaned_data = clean_data(data)
+    print(cleaned_data.head())
